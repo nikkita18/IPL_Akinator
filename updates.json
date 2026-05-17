@@ -1,0 +1,11 @@
+{
+  "lastUpdated": "2026-05-11T12:00:00Z",
+  "source": "Cached API",
+  "teams": {
+    "RCB": { "ipl_winner": "2025" }
+  },
+  "players": {
+    "Virat Kohli": { "orangeCap": true, "hasWonIPL": true },
+    "Rohit Sharma": { "orangeCap": true }
+  }
+}
