@@ -221,7 +221,6 @@ P("Tim Seifert","KKR","wicketkeeper","New Zealand","right","none",false,false,fa
 P("Rovman Powell","KKR","batsman","West Indies","right","none",false,false,false,true,false,false,false,false,"💣"),
 // DC 2026
 P("Karun Nair","DC","batsman","India","right","none",false,false,true,true,false,false,false,false,"🏏"),
-P("Prithvi Shaw","DC","batsman","India","right","none",false,false,false,false,false,false,false,false,"⭐"),
 P("Ben Duckett","DC","batsman","England","left","none",false,false,false,true,false,false,false,false,"🦁"),
 P("Tristan Stubbs","DC","allrounder","South Africa","right","fast",false,false,false,false,true,false,false,false,"🐆"),
 P("Abishek Porel","DC","wicketkeeper","India","left","none",false,false,false,false,true,false,false,false,"🧤"),
@@ -275,7 +274,7 @@ P("Josh Inglis","LSG","wicketkeeper","Australia","right","none",false,false,fals
 P("Shamar Joseph","LSG","bowler","West Indies","right","fast",false,false,false,false,true,false,false,false,"🏹"),
 P("Anrich Nortje","LSG","bowler","South Africa","right","fast",false,false,false,true,false,false,false,false,"🐍"),
 P("George Linde","LSG","allrounder","South Africa","left","spin",false,false,false,true,false,false,false,false,"🇿🇦"),
-P("Arjun Tendulkar","LSG","bowler","India","left","fast",false,false,false,false,false,false,false,false,"🏏"),
+P("Arjun Tendulkar","MI","bowler","India","left","fast",false,false,false,false,false,false,false,false,"🏏"),
 
 // ─── COMPLETE SQUAD ADDITIONS (FRINGE & UNCAPPED) ───
 // CSK
@@ -309,7 +308,6 @@ P("Vaibhav Arora","KKR","bowler","India","right","fast",false,false,false,false,
 P("Kartik Tyagi","KKR","bowler","India","right","fast",false,false,false,false,true,false,false,false,"⚡"),
 P("Prashant Solanki","KKR","bowler","India","right","spin",false,false,false,false,true,false,false,false,"🌀"),
 P("Saurabh Dubey","KKR","bowler","India","left","fast",false,false,false,false,true,false,false,false,"🎯"),
-P("Navdeep Saini","KKR","bowler","India","right","fast",false,false,false,false,false,false,false,false,"💨"),
 
 // DC
 P("Sahil Parakh","DC","batsman","India","right","none",false,false,false,false,true,false,false,false,"🏏"),
@@ -320,7 +318,6 @@ P("Ajay Mandal","DC","allrounder","India","left","spin",false,false,false,false,
 P("Tripurana Vijay","DC","allrounder","India","right","spin",false,false,false,false,true,false,false,false,"🏏"),
 P("Madhav Tiwari","DC","allrounder","India","right","fast",false,false,false,false,true,false,false,false,"🎯"),
 P("Auqib Nabi Dar","DC","allrounder","India","right","fast",false,false,false,false,true,false,false,false,"🏏"),
-P("Mukesh Kumar","DC","bowler","India","right","fast",false,false,false,false,false,false,false,false,"🎯"),
 
 // RR
 P("Shubham Dubey","RR","batsman","India","left","none",false,false,false,false,true,false,false,false,"💥"),
@@ -373,7 +370,6 @@ P("Praful Hinge","SRH","bowler","India","right","fast",false,false,false,false,t
 
 // GT
 P("Kumar Kushagra","GT","wicketkeeper","India","right","none",false,false,false,false,true,false,false,false,"🧤"),
-P("Tom Banton","GT","batsman","England","right","none",false,false,false,false,true,false,false,false,"🏏"),
 P("Connor Esterhuizen","GT","batsman","South Africa","right","none",false,false,false,false,true,false,false,false,"🇿🇦"),
 P("Nishant Sindhu","GT","allrounder","India","left","spin",false,false,false,false,true,false,false,false,"🌀"),
 P("Mohd Arshad Khan","GT","allrounder","India","left","fast",false,false,false,false,true,false,false,false,"🎯"),
@@ -384,3 +380,163 @@ P("Ashok Sharma","GT","bowler","India","right","fast",false,false,false,false,tr
 P("Kulwant Khejroliya","GT","bowler","India","left","fast",false,false,false,false,false,false,false,false,"💨"),
 P("Prithviraj Yarra","GT","bowler","India","left","fast",false,false,false,false,false,false,false,false,"🎯"),
 ];
+
+// ─── CRICKET KNOWLEDGE BASE & TRAIT ENRICHMENT ───
+(function enrichPlayersDatabase() {
+  const IPL_CENTURIONS = new Set([
+    "Virat Kohli", "Rohit Sharma", "Shubman Gill", "Yashasvi Jaiswal", "Ruturaj Gaikwad",
+    "Suryakumar Yadav", "KL Rahul", "Virender Sehwag", "Ambati Rayudu", "Robin Uthappa",
+    "Manish Pandey", "Mayank Agarwal", "Ajinkya Rahane", "Sachin Tendulkar", "Suresh Raina",
+    "Rishabh Pant", "Sanju Samson", "Venkatesh Iyer", "Ishan Kishan", "Devdutt Padikkal",
+    "Rajat Patidar", "Prabhsimran Singh", "Jos Buttler", "David Warner", "Chris Gayle",
+    "AB de Villiers", "Shane Watson", "Quinton de Kock", "Faf du Plessis", "Jonny Bairstow",
+    "Travis Head", "Heinrich Klaasen", "Harry Brook", "Sunil Narine", "Marcus Stoinis",
+    "Cameron Green", "Glenn Maxwell", "Ben Stokes", "Brendon McCullum", "Michael Hussey",
+    "Adam Gilchrist", "Shaun Marsh", "Mahela Jayawardene", "Sanath Jayasuriya", "David Miller",
+    "Steve Smith", "Kane Williamson", "Wriddhiman Saha", "Paul Valthaty", "Hashim Amla",
+    "Will Jacks", "Sai Sudharsan"
+  ]);
+
+  const IPL_5W_OR_HAT_TRICK = new Set([
+    "Jasprit Bumrah", "Yuzvendra Chahal", "Bhuvneshwar Kumar", "Kuldeep Yadav", "Amit Mishra",
+    "Sunil Narine", "Rashid Khan", "Harshal Patel", "Andre Russell", "Lasith Malinga",
+    "Dwayne Bravo", "Ravichandran Ashwin", "Ravindra Jadeja", "Umesh Yadav", "Varun Chakaravarthy",
+    "Mohammed Shami", "Mohammed Siraj", "Arshdeep Singh", "Trent Boult", "Kagiso Rabada",
+    "Pat Cummins", "Sam Curran", "Alzarri Joseph", "Ishant Sharma", "Anil Kumble",
+    "Pravin Tambe", "Sandeep Sharma", "Jaydev Unadkat", "Akash Madhwal", "Yuvraj Singh",
+    "Rohit Sharma", "Axar Patel", "Shardul Thakur", "Lockie Ferguson", "Andrew Tye"
+  ]);
+
+  const WORLD_CUP_WINNERS = new Set([
+    "Virat Kohli", "Rohit Sharma", "Jasprit Bumrah", "Suryakumar Yadav", "Hardik Pandya",
+    "Axar Patel", "Kuldeep Yadav", "Rishabh Pant", "Ravindra Jadeja", "Arshdeep Singh",
+    "Mohammed Siraj", "Yuzvendra Chahal", "Sanju Samson", "Shivam Dube", "MS Dhoni",
+    "Sachin Tendulkar", "Virender Sehwag", "Gautam Gambhir", "Yuvraj Singh", "Suresh Raina",
+    "Harbhajan Singh", "Zaheer Khan", "Ashish Nehra", "Yusuf Pathan", "Sreesanth",
+    "Pat Cummins", "Travis Head", "Mitchell Starc", "Glenn Maxwell", "David Warner",
+    "Steve Smith", "Josh Hazlewood", "Adam Zampa", "Marcus Stoinis", "Matthew Wade",
+    "Mitchell Marsh", "Jos Buttler", "Ben Stokes", "Jofra Archer", "Moeen Ali",
+    "Liam Livingstone", "Sam Curran", "Adil Rashid", "Mark Wood", "Chris Woakes",
+    "Eoin Morgan", "Jason Roy", "Jonny Bairstow", "Liam Plunkett", "David Willey",
+    "Reece Topley", "Phil Salt", "Andre Russell", "Sunil Narine", "Kieron Pollard",
+    "Dwayne Bravo", "Chris Gayle", "Nicholas Pooran", "Shimron Hetmyer", "Alzarri Joseph",
+    "Rovman Powell", "Shai Hope", "Romario Shepherd", "Shane Watson", "Michael Hussey",
+    "Brad Hogg", "Shaun Tait", "Mitchell Johnson", "Lasith Malinga", "Mahela Jayawardene",
+    "Muttiah Muralitharan", "Kumar Sangakkara", "Angelo Mathews", "Tillakaratne Dilshan",
+    "Imran Tahir", "Faf du Plessis", "Quinton de Kock", "Kagiso Rabada", "David Miller",
+    "Dale Steyn", "AB de Villiers", "Jacques Kallis", "Morne Morkel"
+  ]);
+
+  const EMERGING_PLAYERS = new Set([
+    "Rohit Sharma", "Saurabh Tiwary", "Iqbal Abdulla", "Mandeep Singh", "Sanju Samson",
+    "Axar Patel", "Shreyas Iyer", "Mustafizur Rahman", "Basil Thampi", "Rishabh Pant",
+    "Shubman Gill", "Devdutt Padikkal", "Ruturaj Gaikwad", "Umran Malik", "Yashasvi Jaiswal",
+    "Nitish Kumar Reddy"
+  ]);
+
+  const IPL_MVPS = new Set([
+    "Shane Watson", "Adam Gilchrist", "Sachin Tendulkar", "Chris Gayle", "Sunil Narine",
+    "Glenn Maxwell", "Andre Russell", "Virat Kohli", "Ben Stokes", "Jofra Archer",
+    "Harshal Patel", "Jos Buttler", "Shubman Gill"
+  ]);
+
+  const OPENERS = new Set([
+    "Virat Kohli", "Rohit Sharma", "Shubman Gill", "Yashasvi Jaiswal", "Ruturaj Gaikwad",
+    "Prithvi Shaw", "Sai Sudharsan", "Shikhar Dhawan", "Virender Sehwag", "Robin Uthappa",
+    "Mayank Agarwal", "Gautam Gambhir", "KL Rahul", "Ishan Kishan", "Wriddhiman Saha",
+    "Parthiv Patel", "Abhishek Sharma", "Devdutt Padikkal", "Faf du Plessis", "Jos Buttler",
+    "David Warner", "Travis Head", "Quinton de Kock", "Jonny Bairstow", "Phil Salt",
+    "Chris Gayle", "Shane Watson", "Brendon McCullum", "Michael Hussey", "Adam Gilchrist",
+    "Shaun Marsh", "Matthew Hayden", "Sanath Jayasuriya", "Rahmanullah Gurbaz", "Jake Fraser-McGurk",
+    "Will Jacks", "Rachin Ravindra", "Ajinkya Rahane", "Manish Pandey", "Rahul Tripathi",
+    "Venkatesh Iyer", "Prabhsimran Singh", "Anuj Rawat", "Priyansh Arya"
+  ]);
+
+  const ONE_FRANCHISE_ONLY = new Set([
+    "Virat Kohli", "Jasprit Bumrah", "Sunil Narine", "Ruturaj Gaikwad", "Rinku Singh",
+    "Sachin Tendulkar", "Lasith Malinga", "Kieron Pollard", "Umran Malik", "Tilak Varma",
+    "Mayank Yadav", "Ayush Badoni", "Nehal Wadhera", "Matheesha Pathirana"
+  ]);
+
+  const MATCHES_100_PLUS = new Set([
+    "Virat Kohli", "Rohit Sharma", "MS Dhoni", "Suresh Raina", "Dinesh Karthik",
+    "Ravindra Jadeja", "Shikhar Dhawan", "Robin Uthappa", "Ambati Rayudu", "Ravichandran Ashwin",
+    "Bhuvneshwar Kumar", "Sunil Narine", "AB de Villiers", "David Warner", "Kieron Pollard",
+    "Sanju Samson", "Ajinkya Rahane", "Yuzvendra Chahal", "KL Rahul", "Hardik Pandya",
+    "Jasprit Bumrah", "Andre Russell", "Faf du Plessis", "Gautam Gambhir", "Lasith Malinga",
+    "Harbhajan Singh", "Piyush Chawla", "Umesh Yadav", "Amit Mishra", "Dwayne Bravo",
+    "Wriddhiman Saha", "Manish Pandey", "Shreyas Iyer", "Rishabh Pant", "Suryakumar Yadav",
+    "Axar Patel", "Mohit Sharma", "Sandeep Sharma", "Mohammed Shami", "Kagiso Rabada",
+    "Trent Boult", "Shane Watson", "Chris Gayle", "Glenn Maxwell", "Jacques Kallis",
+    "Yusuf Pathan", "Ishant Sharma", "Deepak Chahar", "Krunal Pandya", "Mohammed Siraj"
+  ]);
+
+  const LEFT_ARM_BOWLERS = new Set([
+    "Ravindra Jadeja", "Axar Patel", "Arshdeep Singh", "Mitchell Starc", "Trent Boult",
+    "Kuldeep Yadav", "Sam Curran", "Khaleel Ahmed", "Yash Dayal", "Mohsin Khan",
+    "T Natarajan", "Mustafizur Rahman", "Marco Jansen", "Spencer Johnson", "Fazalhaq Farooqi",
+    "Zaheer Khan", "Ashish Nehra", "Irfan Pathan", "RP Singh", "Pragyan Ojha",
+    "Shakib Al Hasan", "Krunal Pandya", "Abhishek Sharma", "Sai Kishore", "Harpreet Brar",
+    "Chetan Sakariya", "Sushant Mishra", "Arjun Tendulkar", "Akash Maharaj Singh", "Kwena Maphaka"
+  ]);
+
+  const WRIST_SPINNERS = new Set([
+    "Yuzvendra Chahal", "Kuldeep Yadav", "Rashid Khan", "Ravi Bishnoi", "Rahul Chahar",
+    "Wanindu Hasaranga", "Adam Zampa", "Noor Ahmad", "Suyash Sharma", "Mayank Markande",
+    "Karn Sharma", "Piyush Chawla", "Amit Mishra", "Pravin Tambe", "Shreyas Gopal",
+    "Tabraiz Shamsi", "Imran Tahir", "Brad Hogg", "Jhathavedh Subramanyan", "Vipraj Nigam", "Kumar Kartikeya"
+  ]);
+
+  const WICKETS_50_PLUS = new Set([
+    "Yuzvendra Chahal", "Dwayne Bravo", "Piyush Chawla", "Bhuvneshwar Kumar", "Sunil Narine",
+    "Ravichandran Ashwin", "Amit Mishra", "Lasith Malinga", "Jasprit Bumrah", "Umesh Yadav",
+    "Ravindra Jadeja", "Harbhajan Singh", "Rashid Khan", "Mohammed Shami", "Sandeep Sharma",
+    "Axar Patel", "Mohit Sharma", "Kagiso Rabada", "Trent Boult", "Harshal Patel",
+    "Andre Russell", "Mohammed Siraj", "Ashish Nehra", "Vinay Kumar", "Zaheer Khan",
+    "Shardul Thakur", "Dale Steyn", "Chris Morris", "Morne Morkel", "Albie Morkel",
+    "Avesh Khan", "Arshdeep Singh", "Deepak Chahar", "Kuldeep Yadav", "Mitchell Starc"
+  ]);
+
+  const UNCAPPED_PLAYERS = new Set([
+    "Vaibhav Suryavanshi", "Shubham Dubey", "Ravi Singh", "Harsh Dubey", "Shivang Kumar",
+    "Amit Kumar", "Prince Yadav", "Digvesh Singh", "Vyshak Vijaykumar", "Kuldeep Sen",
+    "Krish Bhagat", "Musheer Khan", "Priyansh Arya", "Harnoor Pannu", "Vishnu Vinod",
+    "Mohammad Izhar", "Ashwani Kumar", "Sameer Rizvi", "Tripurana Vijay", "Swastik Chikara",
+    "Angkrish Raghuvanshi", "Rasikh Salam", "Abhinav Manohar", "Shahrukh Khan",
+    "Kumar Kushagra", "Robin Minz", "Ashutosh Sharma", "Shashank Singh", "Ramandeep Singh",
+    "Anukul Roy", "Harpreet Bhatia", "Atharva Taide", "Vidwath Kaverappa", "Shivam Mavi",
+    "Kamlesh Nagarkoti", "Kartik Tyagi", "Yash Thakur", "Yudhvir Singh", "Arshin Kulkarni",
+    "Naman Dhir", "Anshul Kamboj", "Sumer Soni", "Manav Suthar", "Suyash Sharma",
+    "Akash Madhwal", "Nehal Wadhera", "Ayush Badoni"
+  ]);
+
+  const TEENAGERS = new Set([
+    "Vaibhav Suryavanshi", "Angkrish Raghuvanshi", "Musheer Khan", "Arshin Kulkarni", "Kwena Maphaka"
+  ]);
+
+  const FAST_50_SCORERS = new Set([
+    "Yashasvi Jaiswal", "KL Rahul", "Pat Cummins", "Yusuf Pathan", "Nicholas Pooran",
+    "Sunil Narine", "Suresh Raina", "Ishan Kishan", "Chris Gayle", "Hardik Pandya",
+    "Jake Fraser-McGurk", "Abhishek Sharma", "Travis Head"
+  ]);
+
+  if (typeof PLAYERS !== 'undefined' && Array.isArray(PLAYERS)) {
+    PLAYERS.forEach(p => {
+      const isOverseas = p.country !== "India";
+      p.isCapped = isOverseas || !UNCAPPED_PLAYERS.has(p.name);
+      p.isOpener = OPENERS.has(p.name);
+      p.bowlingArm = LEFT_ARM_BOWLERS.has(p.name) ? 'left' : 'right';
+      p.spinType = WRIST_SPINNERS.has(p.name) ? 'wrist' : (p.bowlingType === 'spin' ? 'finger' : 'none');
+      p.hasIPLCentury = IPL_CENTURIONS.has(p.name);
+      p.has5WicketHaul = IPL_5W_OR_HAT_TRICK.has(p.name);
+      p.worldCupWinner = WORLD_CUP_WINNERS.has(p.name);
+      p.emergingPlayerAward = EMERGING_PLAYERS.has(p.name);
+      p.iplMVP = IPL_MVPS.has(p.name);
+      p.oneFranchiseOnly = ONE_FRANCHISE_ONLY.has(p.name);
+      p.matches100Plus = MATCHES_100_PLUS.has(p.name);
+      p.wickets50Plus = WICKETS_50_PLUS.has(p.name);
+      p.teenager = TEENAGERS.has(p.name);
+      p.fast50 = FAST_50_SCORERS.has(p.name);
+    });
+  }
+})();

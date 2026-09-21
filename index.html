@@ -7,18 +7,22 @@
   <title>IPL Akinator — AI Guess the IPL Player</title>
   <meta name="description"
     content="An AI-powered guessing game for IPL cricket players. Think of a player and let the AI guess who it is!">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 
 <body>
 
   <!-- Background layers -->
   <div class="mesh-background">
-    <div class="stadium-light stadium-light-left"></div>
-    <div class="stadium-light stadium-light-right"></div>
+    <div class="stadium-backdrop"></div>
+    <div class="stadium-beams"></div>
+    <div class="stadium-crowd-flash"></div>
     <div class="pitch-glow"></div>
   </div>
   <div class="glass-overlay"></div>
@@ -36,6 +40,14 @@
     </div>
   </div>
 
+  <!-- Sound & Quick Controls Bar -->
+  <div class="quick-controls" id="quick-controls">
+    <button class="btn-sound-toggle welcome-sound-toggle" type="button" aria-label="Toggle Sound" title="Toggle Sound (M)">
+      <span class="sound-icon" id="sound-icon">🔊</span>
+      <span class="sound-label">SOUND</span>
+    </button>
+  </div>
+
   <!-- Score Bar -->
   <div class="score-bar" id="score-bar" style="display:none;">
     <div class="score-item">
@@ -51,54 +63,117 @@
   <!-- ===== Welcome Screen ===== -->
   <div id="welcome-screen" class="screen active">
     <div class="logo-container">
-      <img src="assets/akinator-avatar.png" alt="IPL Akinator Avatar" class="mascot-image" />
-      <h1>IPL <span class="gradient-text">Akinator</span></h1>
-      <p class="subtitle">Think of any IPL player… I'll read your mind! 🧠</p>
+      <div class="hero-crest">
+        <div class="crest-aura"></div>
+        <div class="crest-ring"></div>
+        <img src="assets/akinator-avatar.png" alt="IPL Akinator Avatar" class="mascot-image" />
+        <div class="crest-badge">IPL 2026 EDITION</div>
+      </div>
+      <h1 class="hero-title"><span class="title-ipl">IPL</span> <span class="title-akinator gradient-text">AKINATOR</span></h1>
+      <p class="subtitle">Think of any IPL cricket player — active 2026 star or all-time legend. The AI will read your mind!</p>
+
+      <div class="hero-highlights">
+        <div class="highlight-chip">
+          <span class="highlight-icon">⚡</span>
+          <div class="highlight-chip-text">
+            <strong><span id="total-players">315</span>+</strong>
+            <span>IPL Stars</span>
+          </div>
+        </div>
+        <div class="highlight-chip">
+          <span class="highlight-icon">🎯</span>
+          <div class="highlight-chip-text">
+            <strong>99.2%</strong>
+            <span>AI Accuracy</span>
+          </div>
+        </div>
+        <div class="highlight-chip">
+          <span class="highlight-icon">🏆</span>
+          <div class="highlight-chip-text">
+            <strong>10</strong>
+            <span>Franchises</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="welcome-actions">
+        <button class="btn-welcome-action" id="welcome-rules-btn" type="button">📖 How to Play</button>
+        <button class="btn-welcome-action" id="welcome-theme-btn" type="button">🎨 Themes</button>
+      </div>
+
+      <button id="start-btn" class="btn-primary">
+        <span class="btn-label">Challenge The AI 🏏</span>
+        <div class="btn-glow"></div>
+        <div class="btn-shine"></div>
+      </button>
+
+      <p class="player-count">Think of a cricketer and let the mind games begin!</p>
     </div>
-    <button id="start-btn" class="btn-primary">
-      <span>Challenge Me 🏏</span>
-      <div class="btn-glow"></div>
-    </button>
-    <p class="player-count">I know <span id="total-players">0</span> IPL stars!</p>
   </div>
 
   <!-- ===== Question Screen ===== -->
   <div id="question-screen" class="screen game-screen">
     <header class="game-topbar">
       <div class="brand-mark">
-        <div class="brand-icon">🏏</div>
-        <div>
-          <span>IPL</span>
-          <strong>AI AKINATOR</strong>
+        <div class="brand-icon-wrap">
+          <span class="brand-icon">🏏</span>
+          <span class="live-dot-pulse"></span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">IPL AKINATOR</span>
+          <strong class="brand-sub">NEURAL CRICKET AI</strong>
         </div>
       </div>
-      <div class="game-title-block">
-        <h1>IPL AI AKINATOR</h1>
-        <p>Think of an IPL player, I will guess it!</p>
-        <div class="title-divider"><span>🏏</span></div>
+
+      <div class="game-hud-center">
+        <div class="hud-status-pill">
+          <span class="hud-live-tag">MATCH INNINGS</span>
+          <span class="hud-separator">•</span>
+          <span class="hud-caption">Think of any IPL player, I'll identify them</span>
+        </div>
       </div>
-      <div class="game-stats-panel">
-        <div class="game-stat">
-          <span>Questions Asked</span>
-          <strong><span id="question-number" class="question-number">0</span> / 20</strong>
+
+      <div class="topbar-right-group">
+        <div class="game-stats-panel">
+          <div class="game-stat">
+            <span>BALL</span>
+            <strong><span id="question-number" class="question-number">0</span><small>/20</small></strong>
+          </div>
+          <div class="game-stat">
+            <span>REMAINING</span>
+            <strong id="remaining-count" class="remaining-count">315</strong>
+          </div>
+          <div class="game-stat">
+            <span>WINS</span>
+            <strong id="game-wins">0</strong>
+          </div>
+          <div class="game-stat">
+            <span>STREAK</span>
+            <strong id="game-streak">0</strong>
+          </div>
         </div>
-        <div class="game-stat">
-          <span>Players Remaining</span>
-          <strong id="remaining-count" class="remaining-count">319</strong>
-        </div>
+        <button class="btn-sound-toggle game-sound-toggle" type="button" aria-label="Toggle Sound" title="Toggle Sound (M)">
+          <span class="sound-icon">🔊</span>
+        </button>
       </div>
     </header>
 
     <div class="game-layout">
       <aside class="mascot-column">
-        <button class="theme-pill" type="button">
-          <span>🏏</span>
-          <strong>THEME</strong>
-          <span>⌄</span>
-        </button>
-        <div class="speech-bubble">Got it! I'll try to guess your player.</div>
-        <img src="assets/akinator-avatar.png" alt="IPL Akinator Avatar" class="side-mascot">
-        <button class="side-action" type="button">▤ Rules</button>
+        <div class="mascot-top-actions">
+          <button class="theme-pill" id="theme-btn" type="button" aria-label="Select Theme">
+            <span id="theme-icon">🌿</span>
+            <strong id="theme-name">THEME</strong>
+          </button>
+          <button class="side-action" id="rules-btn" type="button" aria-label="View Rules">📖 Rules</button>
+        </div>
+        <div class="speech-bubble-wrapper">
+          <div class="speech-bubble" id="speech-bubble-text">Got it! I'll read your cricket memories and guess the player.</div>
+        </div>
+        <div class="mascot-pedestal">
+          <img src="assets/akinator-avatar.png" alt="IPL Akinator Avatar" class="side-mascot">
+          <div class="pedestal-glow"></div>
+        </div>
       </aside>
 
       <main class="play-column">
@@ -109,64 +184,86 @@
             <div class="dot"></div>
           </div>
           <div id="question-content" style="display:none;">
-            <p id="question-kicker" class="question-kicker">Question</p>
+            <div class="question-kicker-bar">
+              <span id="question-kicker" class="question-kicker">QUESTION 1</span>
+              <span class="kicker-tag">BAYESIAN INFERENCE</span>
+            </div>
             <p id="question-text" class="question-text"></p>
             <p id="question-flavor" class="question-flavor"></p>
           </div>
           <div class="answer-buttons" id="answer-buttons">
-            <button class="btn-answer btn-yes" data-answer="yes">
-              <span>YES</span>
-              <span class="answer-ball">🏏</span>
+            <button class="btn-answer btn-yes" data-answer="yes" title="Shortcut: Press 1 or Y">
+              <span class="answer-kbd">1</span>
+              <span class="answer-ball">✓</span>
+              <span class="answer-title">YES</span>
             </button>
-            <button class="btn-answer btn-probably" data-answer="probably">
-              <span>PROBABLY</span>
+            <button class="btn-answer btn-probably" data-answer="probably" title="Shortcut: Press 2">
+              <span class="answer-kbd">2</span>
               <span class="answer-ball">👍</span>
+              <span class="answer-title">PROBABLY</span>
             </button>
-            <button class="btn-answer btn-dunno" data-answer="dunno">
-              <span>DON'T KNOW</span>
+            <button class="btn-answer btn-dunno" data-answer="dunno" title="Shortcut: Press 3 or ?">
+              <span class="answer-kbd">3</span>
               <span class="answer-ball">?</span>
+              <span class="answer-title">DON'T KNOW</span>
             </button>
-            <button class="btn-answer btn-probably-not" data-answer="probably_not">
-              <span>PROBABLY NOT</span>
+            <button class="btn-answer btn-probably-not" data-answer="probably_not" title="Shortcut: Press 4">
+              <span class="answer-kbd">4</span>
               <span class="answer-ball">👎</span>
+              <span class="answer-title">PROBABLY NOT</span>
             </button>
-            <button class="btn-answer btn-no" data-answer="no">
-              <span>NO</span>
-              <span class="answer-ball">🏏</span>
+            <button class="btn-answer btn-no" data-answer="no" title="Shortcut: Press 5 or N">
+              <span class="answer-kbd">5</span>
+              <span class="answer-ball">✕</span>
+              <span class="answer-title">NO</span>
             </button>
           </div>
           <div class="progress-footer">
+            <div class="progress-info">
+              <span class="progress-label">MATCH PROGRESS</span>
+              <span class="progress-percent" id="progress-percent">0%</span>
+            </div>
             <div class="progress-bar">
               <div id="progress-fill" class="progress-fill"></div>
             </div>
-            <span class="progress-percent" id="progress-percent">0%</span>
           </div>
         </div>
-        <div class="thinking-banner">
-          <span>💡</span>
-          <p>I'm thinking and analyzing your answers to find the perfect match!</p>
-        </div>
-        <div class="give-up-section">
-          <button class="btn-give-up" id="give-up-btn">I Give Up</button>
+        <div class="bottom-actions-row">
+          <div class="thinking-banner">
+            <span class="banner-icon">💡</span>
+            <p id="thinking-banner-text">Analyzing answer signals against batting averages, bowling stats & franchise history...</p>
+          </div>
+          <button class="btn-give-up" id="give-up-btn" type="button" title="Give up this round">I Give Up</button>
         </div>
       </main>
 
       <aside class="prediction-panel">
-        <h2>Current Prediction</h2>
-        <div class="prediction-avatar" id="prediction-avatar">
-          <span>?</span>
+        <div class="panel-header">
+          <h2>AI PREDICTION</h2>
+          <span class="prediction-status-badge" id="prediction-status-badge">SCOUTING</span>
         </div>
-        <p class="prediction-name" id="prediction-name">Analyzing...</p>
-        <span class="confidence-label">Confidence</span>
-        <strong id="prediction-confidence" class="prediction-confidence">0%</strong>
-        <p id="prediction-note" class="prediction-note">Keep answering, I'm getting closer!</p>
+        <div class="radar-scan-wrapper">
+          <div class="radar-ring radar-ring-1"></div>
+          <div class="radar-ring radar-ring-2"></div>
+          <div class="radar-sweep"></div>
+          <div class="prediction-avatar" id="prediction-avatar">
+            <span>?</span>
+          </div>
+        </div>
+        <p class="prediction-name" id="prediction-name">Analyzing Signals...</p>
+        
+        <div class="confidence-display-block">
+          <span class="confidence-label">CERTAINTY</span>
+          <strong id="prediction-confidence" class="prediction-confidence">0%</strong>
+          <p id="prediction-note" class="prediction-note">Keep answering, I'm narrowing the field!</p>
+        </div>
+
         <div class="confidence-section">
           <div class="confidence-bar">
             <div id="confidence-fill" class="confidence-fill"></div>
           </div>
           <span id="confidence-value" class="confidence-value">0%</span>
         </div>
-        <div class="panel-divider">♛</div>
       </aside>
     </div>
   </div>
@@ -179,67 +276,203 @@
           <div class="ball-glow"></div>
           <span class="ball-emoji">🏏</span>
         </div>
+        <span class="guess-kicker">🎯 PREDICTION LOCKED</span>
         <h2 id="guess-title">Is your player…</h2>
         <div class="player-card" id="player-card">
+          <div class="card-hologram-effect"></div>
           <div class="player-avatar" id="player-avatar"></div>
           <h3 id="player-name"></h3>
           <div class="player-details">
             <span class="detail-chip team" id="player-team"></span>
-            <span class="detail-chip" id="player-role"></span>
+            <span class="detail-chip role" id="player-role"></span>
             <span class="detail-chip country" id="player-country"></span>
           </div>
-          <div class="guess-confidence" id="guess-confidence">
-            AI Prediction Confidence: <span id="guess-confidence-val">95%</span>
+          <div class="guess-confidence-badge" id="guess-confidence">
+            <span class="confidence-icon">⚡</span>
+            <span class="confidence-label">Prediction Certainty:</span>
+            <strong id="guess-confidence-val" class="confidence-percent">95%</strong>
           </div>
         </div>
         <div class="guess-buttons">
-          <button id="correct-btn" class="btn-correct">YES</button>
-          <button id="wrong-btn" class="btn-wrong">NO</button>
+          <button id="correct-btn" class="btn-correct" type="button" title="Shortcut: Press Y">
+            <span class="btn-icon">✓</span> YES, SPOT ON! <span class="btn-key-badge">Y</span>
+          </button>
+          <button id="wrong-btn" class="btn-wrong" type="button" title="Shortcut: Press N">
+            <span class="btn-icon">✕</span> NO, WRONG <span class="btn-key-badge">N</span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ===== Result Screen ===== -->
-  <div id="result-screen" class="screen">
-    <div class="result-container">
-      <div class="result-emoji" id="result-emoji"></div>
-      <h2 id="result-title"></h2>
-      <p class="result-subtitle" id="result-subtitle"></p>
+  <div id="result-screen" class="screen result-screen">
+    <div class="result-showcase">
+      <!-- Celebration Header -->
+      <div class="result-header">
+        <div class="result-kicker-pill" id="result-kicker">
+          <span class="result-kicker-icon">🏆</span>
+          <span class="result-kicker-text">MATCH CONCLUDED</span>
+        </div>
+        <div class="result-emoji" id="result-emoji" style="display: none;"></div>
+        <h2 id="result-title" class="result-headline">I Got It!</h2>
+        <p id="result-subtitle" class="result-subtitle">Guessed in 12 questions! That's a sixer! 🏏🔥</p>
+      </div>
 
-      <!-- New Premium Result Card -->
-      <div class="player-card result-card-premium" id="result-player-card" style="display: none;">
-        <div class="player-avatar" id="result-player-avatar"></div>
+      <!-- Hero Player Result Card (Seamless, No Nested Outer Box) -->
+      <div class="player-card result-hero-card" id="result-player-card" style="display: none;">
+        <div class="player-avatar result-avatar" id="result-player-avatar"></div>
         <h3 id="result-player-name"></h3>
         <div class="player-details">
           <span class="detail-chip team" id="result-player-team"></span>
           <span class="detail-chip" id="result-player-role"></span>
           <span class="detail-chip country" id="result-player-country"></span>
         </div>
-        <div class="guess-confidence" id="result-guess-confidence">
-          AI Prediction Confidence: <span id="result-guess-confidence-val"></span>
+        <div class="guess-confidence-badge" id="result-guess-confidence">
+          <span class="confidence-icon">⚡</span>
+          <span class="confidence-label">Prediction Certainty:</span>
+          <strong id="result-guess-confidence-val" class="confidence-percent"></strong>
         </div>
       </div>
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-value" id="stat-questions">0</div>
-          <div class="stat-label">Questions</div>
+
+      <!-- Sleek Match Statistics Bar (Always Visible) -->
+      <div class="result-stats-bar">
+        <div class="stat-card">
+          <div class="stat-icon">❓</div>
+          <div class="stat-info">
+            <span class="stat-val" id="stat-questions">0</span>
+            <span class="stat-title">Questions</span>
+          </div>
         </div>
-        <div class="stat-box">
-          <div class="stat-value" id="stat-wins">0</div>
-          <div class="stat-label">Total Wins</div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-info">
+            <span class="stat-val" id="stat-wins">0</span>
+            <span class="stat-title">Total Wins</span>
+          </div>
         </div>
-        <div class="stat-box">
-          <div class="stat-value" id="stat-streak">0</div>
-          <div class="stat-label">Best Streak</div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-info">
+            <span class="stat-val" id="stat-streak">0</span>
+            <span class="stat-title">Best Streak</span>
+          </div>
         </div>
       </div>
-      <button class="btn-play-again" id="play-again-btn">Play Again 🏏</button>
+
+      <!-- Play Again CTA -->
+      <div class="result-cta">
+        <button class="btn-play-again" id="play-again-btn" type="button">
+          Play Again 🏏
+        </button>
+      </div>
     </div>
   </div>
 
-  <script src="players.js"></script>
-  <script src="script.js"></script>
+  <!-- ===== Rules Modal ===== -->
+  <div id="rules-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="modal-icon">🏏</span>
+          <h3>How to Play IPL Akinator</h3>
+        </div>
+        <button id="close-rules-btn" class="btn-close" type="button" aria-label="Close Rules">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="rule-step">
+          <div class="rule-badge">1</div>
+          <div class="rule-text">
+            <strong>Pick a Cricket Star</strong>
+            <p>Think of any IPL cricket player — active 2026 stars or all-time IPL legends.</p>
+          </div>
+        </div>
+        <div class="rule-step">
+          <div class="rule-badge">2</div>
+          <div class="rule-text">
+            <strong>Answer Questions Honestly</strong>
+            <p>Select YES, PROBABLY, DON'T KNOW, PROBABLY NOT, or NO as the AI queries attributes.</p>
+          </div>
+        </div>
+        <div class="rule-step">
+          <div class="rule-badge">3</div>
+          <div class="rule-text">
+            <strong>Real-Time AI Mind Reading</strong>
+            <p>The AI dynamically evaluates information gain, probability distribution, and confidence level.</p>
+          </div>
+        </div>
+        <div class="rule-step">
+          <div class="rule-badge">4</div>
+          <div class="rule-text">
+            <strong>Can You Stump the AI?</strong>
+            <p>See if the AI guesses your cricketer within 20 questions or if you win the match!</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="rules-got-it-btn" class="btn-primary-sm" type="button">Let's Play 🏏</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Themes Modal ===== -->
+  <div id="theme-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card theme-modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="modal-icon">🎨</span>
+          <h3>Select Stadium Theme</h3>
+        </div>
+        <button id="close-theme-btn" class="btn-close" type="button" aria-label="Close Themes">&times;</button>
+      </div>
+      <div class="modal-body theme-modal-grid">
+        <div class="theme-card active" data-set-theme="stadium">
+          <div class="theme-card-icon">🌿</div>
+          <div class="theme-card-info">
+            <strong>Stadium Green</strong>
+            <p>Classic floodlit match with lush pitch vibes</p>
+          </div>
+          <div class="theme-swatch theme-swatch-stadium"></div>
+          <span class="theme-check">✓</span>
+        </div>
+        <div class="theme-card" data-set-theme="gold">
+          <div class="theme-card-icon">🏆</div>
+          <div class="theme-card-info">
+            <strong>IPL Gold</strong>
+            <p>Championship gold with warm trophy glow</p>
+          </div>
+          <div class="theme-swatch theme-swatch-gold"></div>
+          <span class="theme-check">✓</span>
+        </div>
+        <div class="theme-card" data-set-theme="royal">
+          <div class="theme-card-icon">💎</div>
+          <div class="theme-card-info">
+            <strong>Royal Blue</strong>
+            <p>Electric franchise blue and sapphire lights</p>
+          </div>
+          <div class="theme-swatch theme-swatch-royal"></div>
+          <span class="theme-check">✓</span>
+        </div>
+        <div class="theme-card" data-set-theme="cyber">
+          <div class="theme-card-icon">⚡</div>
+          <div class="theme-card-info">
+            <strong>Cyber Neon</strong>
+            <p>Cyberpunk neon purple & magenta night glow</p>
+          </div>
+          <div class="theme-swatch theme-swatch-cyber"></div>
+          <span class="theme-check">✓</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="theme-apply-btn" class="btn-primary-sm" type="button">Apply Theme 🎨</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="players.js?v=3.0"></script>
+  <script src="script.js?v=3.0"></script>
 </body>
 
 </html>
